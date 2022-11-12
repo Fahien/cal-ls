@@ -17,9 +17,12 @@ import {
 	InitializeResult
 } from 'vscode-languageserver/node';
 
+import { check, JsCalError } from 'acs';
+
 import {
 	TextDocument
 } from 'vscode-languageserver-textdocument';
+import { AsyncCompleter } from 'readline';
 
 // Create a connection for the server, using Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
@@ -140,41 +143,29 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
 
 	// The validator creates diagnostics for all uppercase words length 2 and more
 	const text = textDocument.getText();
-	const pattern = /\b[A-Z]{2,}\b/g;
-	let m: RegExpExecArray | null;
 
-	let problems = 0;
 	const diagnostics: Diagnostic[] = [];
-	while ((m = pattern.exec(text)) && problems < settings.maxNumberOfProblems) {
-		problems++;
-		const diagnostic: Diagnostic = {
-			severity: DiagnosticSeverity.Warning,
-			range: {
-				start: textDocument.positionAt(m.index),
-				end: textDocument.positionAt(m.index + m[0].length)
-			},
-			message: `${m[0]} is all uppercase.`,
-			source: 'ex'
-		};
-		if (hasDiagnosticRelatedInformationCapability) {
-			diagnostic.relatedInformation = [
-				{
-					location: {
-						uri: textDocument.uri,
-						range: Object.assign({}, diagnostic.range)
-					},
-					message: 'Spelling matters'
+
+	try { check(text); }
+	catch (err) {
+		if (err instanceof JsCalError) {
+			const range: [number, number] = (err.range.start == 0 && err.range.end == 0) ?
+				[textDocument.getText().length, textDocument.getText().length]
+				:
+				[err.range.start, err.range.end];
+
+			const diagnostic: Diagnostic = {
+				severity: DiagnosticSeverity.Error,
+				range: {
+					start: textDocument.positionAt(range[0]),
+					end: textDocument.positionAt(range[1])
 				},
-				{
-					location: {
-						uri: textDocument.uri,
-						range: Object.assign({}, diagnostic.range)
-					},
-					message: 'Particularly for names'
-				}
-			];
+				message: err.message,
+				source: 'cal-checker'
+			};
+
+			diagnostics.push(diagnostic);
 		}
-		diagnostics.push(diagnostic);
 	}
 
 	// Send the computed diagnostics to VSCode.

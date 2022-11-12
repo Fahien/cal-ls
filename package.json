@@ -17,13 +17,13 @@
 		"vscode": "^1.63.0"
 	},
 	"activationEvents": [
-		"onLanguage:plaintext"
+		"onLanguage:cal"
 	],
 	"main": "./client/out/extension",
 	"contributes": {
 		"configuration": {
 			"type": "object",
-			"title": "Example configuration",
+			"title": "Cal Language Server Configuration",
 			"properties": {
 				"languageServerExample.maxNumberOfProblems": {
 					"scope": "resource",
@@ -43,6 +43,13 @@
 					"description": "Traces the communication between VS Code and the language server."
 				}
 			}
+		},
+		"languages": [
+			{
+				"id": "cal",
+				"extensions": [
+					".cal"
+				]
 		}
 	},
 	"scripts": {
