@@ -50,7 +50,15 @@
 				"extensions": [
 					".cal"
 				]
-		}
+			}
+		],
+		"grammars": [
+			{
+				"language": "cal",
+				"scopeName": "source.cal",
+				"path": "./syntaxes/cal.tmGrammar.json"
+			}
+		]
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
