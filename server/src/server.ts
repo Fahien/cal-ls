@@ -17,7 +17,7 @@ import {
 	InitializeResult
 } from 'vscode-languageserver/node';
 
-import { check, JsCalError } from 'acs';
+import { check, JsCalError } from '@fahien/acs';
 
 import {
 	TextDocument
