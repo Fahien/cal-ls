@@ -1,0 +1,39 @@
+name: ci
+
+on:
+  push:
+    branches: [ main, ci ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: latest
+
+      - name: Deps
+        run: |
+          echo '//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}' > ~/.npmrc
+          npm install
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Package
+        uses: lannonbr/vsce-action@3.0.0
+        with:
+          args: package
+
+      - name: Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          path: ./*.vsix

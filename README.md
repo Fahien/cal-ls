@@ -36,3 +36,9 @@ This Language Server works for Cal source files. It has the following language f
 - If you want to debug the server as well, use the launch configuration `Attach to Server`
 - In the [Extension Development Host](https://code.visualstudio.com/api/get-started/your-first-extension#:~:text=Then%2C%20inside%20the%20editor%2C%20press%20F5.%20This%20will%20compile%20and%20run%20the%20extension%20in%20a%20new%20Extension%20Development%20Host%20window.) instance of VSCode, open a document in 'Cal' language mode.
   - Enter some Cal source code such as `fn main() {}`. The extension will emit diagnostics for all kinds of Cal errors.
+
+## Trying the packaged extensions
+
+You can try the extension while it is under development by:
+- [Downloading a release](https://github.com/Fahien/cal-ls/releases) `x.x.x.` containing the `vsix` file.
+- Install the downloaded extension by running `code --install-extension cal-ls-x.x.x.vsix`
