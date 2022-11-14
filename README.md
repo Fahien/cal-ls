@@ -1,14 +1,11 @@
-# LSP Example
+# Cal Language Server
 
-Heavily documented sample code for https://code.visualstudio.com/api/language-extensions/language-server-extension-guide
+VsCode extension built on top of [lsp-sample](https://github.com/Microsoft/vscode-extension-samples/tree/main/lsp-sample).
 
 ## Functionality
 
-This Language Server works for plain text file. It has the following language features:
-- Completions
+This Language Server works for Cal source files. It has the following language features:
 - Diagnostics regenerated on each file change or configuration change
-
-It also includes an End-to-End test.
 
 ## Structure
 
@@ -26,6 +23,10 @@ It also includes an End-to-End test.
 
 ## Running the Sample
 
+- In order to pull the [acs dependency](https://github.com/Fahien/acs/pkgs/npm/acs) from the GitHub registry. You will need to login with `npm login --scope=@fahien --registry=https://npm.pkg.github.com/` using:
+  - as a username your GitHub username
+  - as a password a Personal Access Token with `read:packages` permissions
+  - as an email your GitHub email
 - Run `npm install` in this folder. This installs all necessary npm modules in both the client and server folder
 - Open VS Code on this folder.
 - Press Ctrl+Shift+B to start compiling the client and server in [watch mode](https://code.visualstudio.com/docs/editor/tasks#:~:text=The%20first%20entry%20executes,the%20HelloWorld.js%20file.).
@@ -33,6 +34,5 @@ It also includes an End-to-End test.
 - Select `Launch Client` from the drop down (if it is not already).
 - Press ▷ to run the launch config (F5).
 - If you want to debug the server as well, use the launch configuration `Attach to Server`
-- In the [Extension Development Host](https://code.visualstudio.com/api/get-started/your-first-extension#:~:text=Then%2C%20inside%20the%20editor%2C%20press%20F5.%20This%20will%20compile%20and%20run%20the%20extension%20in%20a%20new%20Extension%20Development%20Host%20window.) instance of VSCode, open a document in 'plain text' language mode.
-  - Type `j` or `t` to see `Javascript` and `TypeScript` completion.
-  - Enter text content such as `AAA aaa BBB`. The extension will emit diagnostics for all words in all-uppercase.
+- In the [Extension Development Host](https://code.visualstudio.com/api/get-started/your-first-extension#:~:text=Then%2C%20inside%20the%20editor%2C%20press%20F5.%20This%20will%20compile%20and%20run%20the%20extension%20in%20a%20new%20Extension%20Development%20Host%20window.) instance of VSCode, open a document in 'Cal' language mode.
+  - Enter some Cal source code such as `fn main() {}`. The extension will emit diagnostics for all kinds of Cal errors.
